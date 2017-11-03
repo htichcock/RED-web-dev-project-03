@@ -17,6 +17,7 @@ export const gameHeight = 256;
 //board settings
 export const bgColor = '#23ab69';
 export const boardGap = 10;
+export const scoreSize = 45;
 
 //ball settings
 export const ballSize = '8';

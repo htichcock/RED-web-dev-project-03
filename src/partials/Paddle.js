@@ -1,4 +1,5 @@
-import { paddleWidth , paddleHeight, paddleColor, paddleSpeed, boardGap, KEYS, SVG_NS} from '../settings';
+import { paddleWidth , paddleHeight, paddleColor, paddleSpeed, scoreSize, boardGap, KEYS, SVG_NS} from '../settings';
+import ScoreBoard from './Score';
 
 
 
@@ -13,8 +14,9 @@ export default class Paddle {
     this.speed = paddleSpeed;
     this.score = 0;
     switch (player) {
-      case 1:
+      case 1: //player1 config
         this.x = boardGap;
+        this.scoreBoard = new scoreBoard(boardWidth/2 - 0.715*scoreSize , scoreSize, scoreSize);
         document.addEventListener('keydown', event => {
           switch (event.key) { 
             case KEYS.playerOneUp: 
@@ -36,7 +38,8 @@ export default class Paddle {
             }
         });
         break;
-      case 2:
+      case 2: //player2 config
+      this.scoreBoard = new scoreBoard(boardWidth/2, scoreSize, scoreSize);
         this.x = boardWidth - boardGap - paddleWidth;
         document.addEventListener('keydown', event => {
           switch (event.key) { 
@@ -75,7 +78,7 @@ export default class Paddle {
       this.moveDown();
     }
     rect.setAttributeNS(null, 'y', this.y);
-
+    this.scoreBoard.render(svg, this.score);
     svg.appendChild(rect);
   }
 
@@ -90,5 +93,8 @@ export default class Paddle {
   }
   getCoordinates() {
     return [this.x, this.x + this.width, this.y, this.y + this.height];
+  }
+  getScore() {
+    return this.score;
   }
 }
