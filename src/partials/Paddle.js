@@ -5,7 +5,6 @@ import { paddleWidth , paddleHeight, paddleColor, paddleSpeed, boardGap, KEYS, S
 export default class Paddle {
 
   constructor(boardWidth, boardHeight, player) {
-    this.element = 
     this.boardHeight = boardHeight;
     this.height = paddleHeight;
     this.width = paddleWidth;
@@ -18,13 +17,23 @@ export default class Paddle {
         this.x = boardGap;
         document.addEventListener('keydown', event => {
           switch (event.key) { 
-            case KEYS.playerOneUp:
-              this.moveUp();
+            case KEYS.playerOneUp: 
+              this.upKey = true;
               break;
             case KEYS.playerOneDown: 
-              this.moveDown();
+              this.downKey = true;
               break;
           }
+        });
+          document.addEventListener('keyup', event => {
+            switch (event.key) { 
+              case KEYS.playerOneUp: 
+                this.upKey = false;
+                break;
+              case KEYS.playerOneDown: 
+                this.downKey = false;
+                break;
+            }
         });
         break;
       case 2:
@@ -32,12 +41,22 @@ export default class Paddle {
         document.addEventListener('keydown', event => {
           switch (event.key) { 
             case KEYS.playerTwoUp: 
-              this.moveUp();
+              this.upKey = true;
               break;
             case KEYS.playerTwoDown: 
-              this.moveDown();
+              this.downKey = true;
               break;
           }
+        });
+          document.addEventListener('keyup', event => {
+            switch (event.key) { 
+              case KEYS.playerTwoUp: 
+                this.upKey = false;
+                break;
+              case KEYS.playerTwoDown: 
+                this.downKey = false;
+                break;
+            }
         });
         break;
     }
@@ -49,6 +68,12 @@ export default class Paddle {
     rect.setAttributeNS(null, 'height', this.height);
     rect.setAttributeNS(null, 'fill', `${paddleColor}`);
     rect.setAttributeNS(null, 'x', this.x);
+    if (this.upKey) {
+      this.moveUp();
+    }
+    if (this.downKey) {
+      this.moveDown();
+    }
     rect.setAttributeNS(null, 'y', this.y);
 
     svg.appendChild(rect);
@@ -60,5 +85,10 @@ export default class Paddle {
   moveDown() {
     this.y = Math.min(this.y + this.speed, this.boardHeight - this.height);
   }
-  
+  changeScore(score) {
+    this.score = score;
+  }
+  getCoordinates() {
+    return [this.x, this.x + this.width, this.y, this.y + this.height];
+  }
 }

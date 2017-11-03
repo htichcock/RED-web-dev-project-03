@@ -21,11 +21,12 @@ export const boardGap = 10;
 //ball settings
 export const ballSize = '8';
 export const ballColor = '#FFF';
+export const ballSpeed = 3;
 
 //paddle settings 
-export const paddleHeight = '56';
-export const paddleWidth = '8';
+export const paddleHeight = 56;
+export const paddleWidth = 8;
 export const paddleColor = '#FFF';
-export const paddleSpeed = 10;
+export const paddleSpeed = 5;
 
 
