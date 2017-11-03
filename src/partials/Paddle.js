@@ -16,7 +16,7 @@ export default class Paddle {
     switch (player) {
       case 1: //player1 config
         this.x = boardGap;
-        this.scoreBoard = new scoreBoard(boardWidth/2 - 0.715*scoreSize , scoreSize, scoreSize);
+        this.scoreBoard = new ScoreBoard(boardWidth/2 - 0.715*scoreSize , scoreSize, scoreSize);
         document.addEventListener('keydown', event => {
           switch (event.key) { 
             case KEYS.playerOneUp: 
@@ -39,7 +39,7 @@ export default class Paddle {
         });
         break;
       case 2: //player2 config
-      this.scoreBoard = new scoreBoard(boardWidth/2, scoreSize, scoreSize);
+      this.scoreBoard = new ScoreBoard(boardWidth/2, scoreSize, scoreSize);
         this.x = boardWidth - boardGap - paddleWidth;
         document.addEventListener('keydown', event => {
           switch (event.key) { 

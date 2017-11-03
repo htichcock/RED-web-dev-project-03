@@ -12,6 +12,9 @@ export default class Ball {
     this.player2 = player2;
     this.game = game;
     this.isPaused = true;
+    this.ping = new Audio('public/sounds/pong-01.wav');
+    this.pong = new Audio('public/sounds/pong-02.wav');
+    this.celebrate = new Audio('public/sounds/pong-04.wav');
     this.reset();
     document.addEventListener('keydown', event => {
       if (event.key === KEYS.pausePlay) {this.togglePause();}
@@ -74,15 +77,18 @@ export default class Ball {
     if (this.x <= this.radius) {
       this.goal(this.player2);
       this.direction[0] = -Math.abs(this.direction[0]);
+      this.celebrate.play();
     }
     if (this.x >= this.boardWidth - this.radius) {
       this.goal(this.player1);
       this.direction[0] = Math.abs(this.direction[0]);
+      this.celebrate.play();
     }
 
     //check for wall bounce
     if (this.y <= this.radius || this.y >= this.boardHeight - this.radius) {
       this.direction[1] = -this.direction[1];
+      this.pong.play();
     }
 
     //check for paddle collision 
@@ -95,6 +101,7 @@ export default class Ball {
       && this.y <= this.player2.y + this.player2.height
       ){
         this.direction[0] = -this.direction[0];
+        this.ping.play();
         this.speed *= 1.05;
       }
    } else {
@@ -106,6 +113,7 @@ export default class Ball {
       ){
         this.direction[0] = -this.direction[0];
         this.speed *= 1.05;
+        this.ping.play();
       }
    }
 
