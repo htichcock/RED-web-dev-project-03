@@ -113,16 +113,16 @@ export default class Ball {
 
     if (this.direction[0] > 0) {
       if (playerTwoSideHit) {
-        this.direction[0] = -this.direction[0];
-        this.direction[1] = (this.y - this.player2.y - this.player2.height/2)/this.player2.height; //sets x vector between -.5 and .5 depends on where it is hit
+        this.direction[1] = (this.y - this.player2.y - this.player2.height/2)/this.player2.height; //sets y vector between -.5 and .5 depends on where it is 
+        this.direction[0] = -Math.sqrt(1 - Math.pow(this.direction[1],2)); //normalize vector to length 1 and reverse x
         this.ping.play();
-        this.speed *= (Math.abs(this.direction[1]) + 1); //speed up by a max of 1.5times depending on how close to the edge it was hit.
+        this.speed *= (Math.abs(this.direction[1]*0.5) + 1); //speed up by a max of 1.5times depending on how close to the edge it was hit.
       }
     } else {
       if (playerOneSideHit) {
-        this.direction[0] = -this.direction[0];
         this.direction[1] = (this.y - this.player1.y - this.player1.height/2)/this.player1.height;
-        this.speed *= (Math.abs(this.direction[1]) + 1);
+        this.direction[0] = Math.sqrt(1 - Math.pow(this.direction[1],2)); 
+        this.speed *= (Math.abs(this.direction[1]*.5) + 1);
         this.ping.play();
       }
 
