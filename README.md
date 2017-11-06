@@ -5,7 +5,7 @@ A basic pong game using SVGs.
 ##### [GitHub Pages](https://htichcock.github.io/RED-web-dev-project-03/)
 
 
-![pong screenshot](https://imgur.com/3YDZ7hA)
+![pong screenshot](https://imgur.com/3YDZ7hA.jpg)
 
 
 ## Stretch Goals
