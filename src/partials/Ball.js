@@ -91,7 +91,13 @@ export default class Ball {
     }
 
     //check for wall bounce
-    if (this.y <= this.radius || this.y >= this.boardHeight - this.radius) {
+    if (this.y <= this.radius) {
+      this.y = this.radius;
+      this.direction[1] = -this.direction[1];
+      this.pong.play();
+    }
+    if (this.y >= this.boardHeight - this.radius) {
+      this.y = this.boardHeight - this.radius;
       this.direction[1] = -this.direction[1];
       this.pong.play();
     }
