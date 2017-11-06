@@ -1,14 +1,16 @@
-import { SVG_NS, paddleColor } from '../settings';
+import {
+  SVG_NS,
+  paddleColor
+} from '../settings';
 
 
 export default class Score {
 
-  constructor(x, y, size){
+  constructor(x, y, size) {
     this.x = x;
     this.y = y;
     this.size = size;
   }
-
   render(svg, score) {
     let text = document.createElementNS(SVG_NS, 'text');
     text.setAttributeNS(null, 'x', this.x);

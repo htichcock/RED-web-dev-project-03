@@ -1,11 +1,16 @@
-import { ballSize, ballSpeed, ballColor, SVG_NS, KEYS} from '../settings';
+import {
+  ballSize,
+  ballSpeed,
+  ballColor,
+  SVG_NS
+} from '../settings';
 
 export default class Ball {
 
   constructor(boardWidth, boardHeight, game, player1, player2) {
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
-    this.radius = ballSize/2;
+    this.radius = ballSize / 2;
     this.direction = this.setDirection();
     this.speed = ballSpeed;
     this.player1 = player1;
@@ -16,13 +21,10 @@ export default class Ball {
     this.pong = new Audio('public/sounds/pong-02.wav');
     this.celebrate = new Audio('public/sounds/pong-04.wav');
     this.reset();
-    document.addEventListener('keydown', event => {
-      if (event.key === KEYS.pausePlay) {this.togglePause();}
-    });
   }
 
   render(svg) {
-    if (!this.isPaused){
+    if (!this.isPaused) {
       this.setX();
       this.setY();
     }
@@ -43,29 +45,32 @@ export default class Ball {
     this.x = this.x + (this.speed * this.direction[0]);
   }
   setDirection() {
-    let x  = Math.ceil(Math.random()*10);
-    let y  = Math.ceil(Math.random()*8);
+    let x = Math.ceil(Math.random() * 10);
+    let y = Math.ceil(Math.random() * 10);
     let length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-    x = x/length;
-    y = y/length;
-    if (Math.ceil(Math.random()*2)%2) {
+    x = x / length;
+    y = y / length;
+    if (Math.ceil(Math.random() * 2) % 2) {
       x = -x;
     }
-    if (Math.ceil(Math.random()*2)%2) {
+    if (Math.ceil(Math.random() * 2) % 2) {
       y = -y;
     }
-    return [x,y];
+    return [x, y];
   }
   reset() {
-    this.x = this.boardWidth/2;
-    this.y = this.boardHeight/2;
+    this.x = this.boardWidth / 2;
+    this.y = this.boardHeight / 2;
     this.speed = ballSpeed;
   }
   goal(player) {
-    // this.togglePause();
+    // this.togglePause(); 
     player.changeScore(player.score + 1);
     this.reset()
     this.direction = this.setDirection();
+    if (player.score >= 5) {
+      this.game.onWin(player);
+    }
   }
 
   togglePause() {
@@ -93,31 +98,35 @@ export default class Ball {
 
     //check for paddle collision 
     //margin of error is ballSpeed since direction vector length is 1
-   if (this.direction[0] > 0) {
-    if (
-      this.x + this.radius >= this.player2.x 
-      && this.x + this.radius <= this.player2.x + this.speed 
-      && this.y >= this.player2.y 
-      && this.y <= this.player2.y + this.player2.height
-      ){
-        this.direction[0] = -this.direction[0];
-        this.ping.play();
-        this.speed *= 1.05;
-      }
-   } else {
-      if (
-        this.x - this.radius <= this.player1.x + this.player1.width 
-        && this.x - this.radius >= this.player1.x + this.player1.width - this.speed
-        && this.y >= this.player1.y 
-        && this.y <= this.player1.y + this.player1.height
-      ){
-        this.direction[0] = -this.direction[0];
-        this.speed *= 1.05;
-        this.ping.play();
-      }
-   }
+    //not perfect but okay for now
+    const playerTwoSideHit =
+      this.x + this.radius >= this.player2.x &&
+      this.x + this.radius <= this.player2.x + this.speed &&
+      this.y >= this.player2.y &&
+      this.y <= this.player2.y + this.player2.height;
+    const playerOneSideHit =
+      this.x - this.radius <= this.player1.x + this.player1.width &&
+      this.x - this.radius >= this.player1.x + this.player1.width - this.speed &&
+      this.y >= this.player1.y &&
+      this.y <= this.player1.y + this.player1.height;
 
 
+    if (this.direction[0] > 0) {
+      if (playerTwoSideHit) {
+        this.direction[0] = -this.direction[0];
+        this.direction[1] = (this.y - this.player2.y - this.player2.height/2)/this.player2.height; //sets x vector between -.5 and .5 depends on where it is hit
+        this.ping.play();
+        this.speed *= (Math.abs(this.direction[1]) + 1); //speed up by a max of 1.5times depending on how close to the edge it was hit.
+      }
+    } else {
+      if (playerOneSideHit) {
+        this.direction[0] = -this.direction[0];
+        this.direction[1] = (this.y - this.player1.y - this.player1.height/2)/this.player1.height;
+        this.speed *= (Math.abs(this.direction[1]) + 1);
+        this.ping.play();
+      }
+
+    }
   }
 
 
