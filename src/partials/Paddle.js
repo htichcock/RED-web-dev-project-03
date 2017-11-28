@@ -27,8 +27,8 @@ export default class Paddle {
     switch (player) {
       case 1: //player1 config
         this.x = boardGap;
-        this.upInstruc = new Message(boardWidth/4,scoreSize/2,scoreSize/2, `UP: ${KEYS.playerOneUp}`, '');
-        this.downInstruc = new Message(boardWidth/4, scoreSize,scoreSize/2,  `DOWN: ${KEYS.playerOneDown}`, '');
+        this.upInstruc = new Message(boardWidth / 4, scoreSize / 2, scoreSize / 2, `UP: ${KEYS.playerOneUp}`, '');
+        this.downInstruc = new Message(boardWidth / 4, scoreSize, scoreSize / 2, `DOWN: ${KEYS.playerOneDown}`, '');
         this.scoreBoard = new ScoreBoard(boardWidth / 2 - 0.715 * scoreSize, scoreSize, scoreSize);
         document.addEventListener('keydown', event => {
           switch (event.key) {
@@ -60,8 +60,8 @@ export default class Paddle {
         });
         break;
       case 2: //player2 config
-        this.upInstruc = new Message(3*boardWidth/4,scoreSize/2,scoreSize/2, `UP: ${KEYS.playerTwoUp}`, '');
-        this.downInstruc = new Message(3*boardWidth/4, scoreSize,scoreSize/2,  `DOWN: ${KEYS.playerTwoDown}`, '');
+        this.upInstruc = new Message(3 * boardWidth / 4, scoreSize / 2, scoreSize / 2, `UP: ${KEYS.playerTwoUp}`, '');
+        this.downInstruc = new Message(3 * boardWidth / 4, scoreSize, scoreSize / 2, `DOWN: ${KEYS.playerTwoDown}`, '');
         this.scoreBoard = new ScoreBoard(boardWidth / 2, scoreSize, scoreSize);
         this.x = boardWidth - boardGap - paddleWidth;
         document.addEventListener('keydown', event => {
@@ -138,7 +138,7 @@ export default class Paddle {
   }
   eraseInstruc(upOrDown) {
     if (!this.isPaused) {
-      switch(upOrDown){
+      switch (upOrDown) {
         case 1:
           this.upInstruc = '';
           break
@@ -146,6 +146,6 @@ export default class Paddle {
           this.downInstruc = '';
       }
     }
-    
+
   }
 }
