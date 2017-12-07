@@ -22,6 +22,11 @@ A basic pong game using SVGs.
 	- on the paddle hit the y direction vector is set to between -0.5 and 0.5 depending on where it is hit on the paddle, the speed also increases
  depending on where it was hit. The closer to the edge the faster it is!
 
+## New technologies
+- This was my first project using es6 syntax and OOP in js 
+- This was my first project using Webpack for my dev environment
+
+
 ## Setup
 
 **Install dependencies:**

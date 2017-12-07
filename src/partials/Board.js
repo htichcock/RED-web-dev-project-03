@@ -1,5 +1,5 @@
 import {
-  bgColor,
+  BG_COLOR,
   SVG_NS
 } from '../settings';
 
@@ -14,7 +14,7 @@ export default class Board {
     let rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttributeNS(null, 'width', this.width);
     rect.setAttributeNS(null, 'height', this.height);
-    rect.setAttributeNS(null, 'fill', `${bgColor}`);
+    rect.setAttributeNS(null, 'fill', `${BG_COLOR}`);
     let line = document.createElementNS(SVG_NS, 'line');
     line.setAttributeNS(null, 'stroke-width', this.width / 256);
     line.setAttributeNS(null, 'stroke-dasharray', `${this.height/16}, ${this.height/32}`);

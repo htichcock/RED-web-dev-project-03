@@ -1,6 +1,6 @@
 import {
   SVG_NS,
-  paddleColor
+  PADDLE_COLOR
 } from '../settings';
 
 
@@ -16,7 +16,7 @@ export default class Score {
     text.setAttributeNS(null, 'x', this.x);
     text.setAttributeNS(null, 'y', this.y);
     text.setAttributeNS(null, 'font-size', this.size)
-    text.setAttributeNS(null, 'fill', `${ paddleColor }`);
+    text.setAttributeNS(null, 'fill', `${ PADDLE_COLOR }`);
     text.innerHTML = score;
     svg.appendChild(text);
   }

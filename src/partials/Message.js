@@ -1,6 +1,6 @@
 import {
   SVG_NS,
-  paddleColor
+  PADDLE_COLOR
 } from '../settings';
 import ScoreBoard from './Score';
 
@@ -18,14 +18,14 @@ export default class Message extends ScoreBoard {
     text.setAttributeNS(null, 'x', this.x);
     text.setAttributeNS(null, 'y', this.y);
     text.setAttributeNS(null, 'font-size', this.size)
-    text.setAttributeNS(null, 'fill', `${ paddleColor }`);
+    text.setAttributeNS(null, 'fill', `${ PADDLE_COLOR }`);
     let subText = document.createElementNS(SVG_NS, 'text');
     subText.setAttributeNS(null, 'text-anchor', 'middle');
     subText.setAttributeNS(null, 'alignment-baseline', 'central');
     subText.setAttributeNS(null, 'x', this.x);
     subText.setAttributeNS(null, 'y', this.y + this.size);
     subText.setAttributeNS(null, 'font-size', this.size / 2)
-    subText.setAttributeNS(null, 'fill', `${ paddleColor }`);
+    subText.setAttributeNS(null, 'fill', `${ PADDLE_COLOR }`);
 
     text.innerHTML = `${this.message}`
     subText.innerHTML = `${this.subMessage}`

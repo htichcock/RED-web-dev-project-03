@@ -1,7 +1,7 @@
 import {
-  ballSize,
-  ballSpeed,
-  ballColor,
+  BALL_SIZE,
+  BALL_SPEED,
+  BALL_COLOR,
   SVG_NS
 } from '../settings';
 
@@ -10,9 +10,9 @@ export default class Ball {
   constructor(boardWidth, boardHeight, game, player1, player2) {
     this.boardWidth = boardWidth;
     this.boardHeight = boardHeight;
-    this.radius = ballSize / 2;
+    this.radius = BALL_SIZE / 2;
     this.direction = this.setDirection();
-    this.speed = ballSpeed;
+    this.speed = BALL_SPEED;
     this.player1 = player1;
     this.player2 = player2;
     this.game = game;
@@ -28,12 +28,14 @@ export default class Ball {
       this.setX();
       this.setY();
     }
-    this.checkCollision();
+    this.checkGoalCollision();
+    this.checkWallCollision();
+    this.checkPaddleCollision();
     let circle = document.createElementNS(SVG_NS, 'circle');
     circle.setAttributeNS(null, 'cx', this.x);
     circle.setAttributeNS(null, 'cy', this.y);
     circle.setAttributeNS(null, 'r', this.radius);
-    circle.setAttributeNS(null, 'fill', ballColor);
+    circle.setAttributeNS(null, 'fill', BALL_COLOR);
 
 
     svg.appendChild(circle);
@@ -61,7 +63,7 @@ export default class Ball {
   reset() {
     this.x = this.boardWidth / 2;
     this.y = this.boardHeight / 2;
-    this.speed = ballSpeed;
+    this.speed = BALL_SPEED;
   }
   goal(player) {
     // this.togglePause(); 
@@ -77,7 +79,7 @@ export default class Ball {
     this.isPaused = !this.isPaused;
   }
 
-  checkCollision() {
+  checkGoalCollision() {
     //check for goals
     if (this.x <= this.radius) {
       this.goal(this.player2);
@@ -89,7 +91,8 @@ export default class Ball {
       this.direction[0] = Math.abs(this.direction[0]);
       this.celebrate.play();
     }
-
+  }
+  checkWallCollision() {
     //check for wall bounce
     if (this.y <= this.radius) {
       this.y = this.radius;
@@ -101,9 +104,10 @@ export default class Ball {
       this.direction[1] = -this.direction[1];
       this.pong.play();
     }
-
+  }
+  checkPaddleCollision() {
     //check for paddle collision 
-    //margin of error is ballSpeed since direction vector length is 1
+    //margin of error is BALL_SPEED since direction vector length is 1
     //not perfect but okay for now
     const playerTwoSideHit =
       this.x + this.radius >= this.player2.x &&

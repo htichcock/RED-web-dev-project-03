@@ -1,12 +1,12 @@
 import './styles/game.css';
 import Game from './partials/Game'
 import {
-    gameWidth,
-    gameHeight
+    GAME_WIDTH,
+    GAME_HEIGHT
 } from './settings';
 
 // create a game instance
-const game = new Game('game', gameWidth, gameHeight);
+const game = new Game('game', GAME_WIDTH, GAME_HEIGHT);
 
 (function gameLoop() {
     game.render();

@@ -1,10 +1,10 @@
 import {
-  paddleWidth,
-  paddleHeight,
-  paddleColor,
-  paddleSpeed,
-  scoreSize,
-  boardGap,
+  PADDLE_WIDTH,
+  PADDLE_HEIGHT,
+  PADDLE_COLOR,
+  PADDLE_SPEED,
+  SCORE_SIZE,
+  BOARD_GAP,
   KEYS,
   SVG_NS
 } from '../settings';
@@ -17,81 +17,27 @@ export default class Paddle {
 
   constructor(boardWidth, boardHeight, player) {
     this.boardHeight = boardHeight;
-    this.height = paddleHeight;
-    this.width = paddleWidth;
+    this.height = PADDLE_HEIGHT;
+    this.width = PADDLE_WIDTH;
     this.player = player;
-    this.y = boardHeight / 2 - paddleHeight / 2;
-    this.speed = paddleSpeed;
+    this.y = boardHeight / 2 - PADDLE_HEIGHT / 2;
+    this.speed = PADDLE_SPEED;
     this.score = 0;
     this.isPaused = true;
     switch (player) {
       case 1: //player1 config
-        this.x = boardGap;
-        this.upInstruc = new Message(boardWidth / 4, scoreSize / 2, scoreSize / 2, `UP: ${KEYS.playerOneUp}`, '');
-        this.downInstruc = new Message(boardWidth / 4, scoreSize, scoreSize / 2, `DOWN: ${KEYS.playerOneDown}`, '');
-        this.scoreBoard = new ScoreBoard(boardWidth / 2 - 0.715 * scoreSize, scoreSize, scoreSize);
-        document.addEventListener('keydown', event => {
-          switch (event.key) {
-            case KEYS.playerOneUp:
-              this.eraseInstruc(2);
-              this.upKey = true;
-              if (this.downKey) {
-                this.downKey = false;
-              }
-              break;
-            case KEYS.playerOneDown:
-              this.eraseInstruc(1);
-              this.downKey = true;
-              if (this.upKey) {
-                this.upKey = false;
-              }
-              break;
-          }
-        });
-        document.addEventListener('keyup', event => {
-          switch (event.key) {
-            case KEYS.playerOneUp:
-              this.upKey = false;
-              break;
-            case KEYS.playerOneDown:
-              this.downKey = false;
-              break;
-          }
-        });
+        this.x = BOARD_GAP;
+        this.upInstruc = new Message(boardWidth / 4, SCORE_SIZE / 2, SCORE_SIZE / 2, `UP: ${KEYS.playerOneUp}`, '');
+        this.downInstruc = new Message(boardWidth / 4, SCORE_SIZE, SCORE_SIZE / 2, `DOWN: ${KEYS.playerOneDown}`, '');
+        this.scoreBoard = new ScoreBoard(boardWidth / 2 - 0.715 * SCORE_SIZE, SCORE_SIZE, SCORE_SIZE);
+        this.addKeyListeners( KEYS.playerOneUp, KEYS.playerOneDown );
         break;
       case 2: //player2 config
-        this.upInstruc = new Message(3 * boardWidth / 4, scoreSize / 2, scoreSize / 2, `UP: ${KEYS.playerTwoUp}`, '');
-        this.downInstruc = new Message(3 * boardWidth / 4, scoreSize, scoreSize / 2, `DOWN: ${KEYS.playerTwoDown}`, '');
-        this.scoreBoard = new ScoreBoard(boardWidth / 2, scoreSize, scoreSize);
-        this.x = boardWidth - boardGap - paddleWidth;
-        document.addEventListener('keydown', event => {
-          switch (event.key) {
-            case KEYS.playerTwoUp:
-              this.eraseInstruc(1);
-              this.upKey = true;
-              if (this.downKey) {
-                this.downKey = false;
-              }
-              break;
-            case KEYS.playerTwoDown:
-              this.eraseInstruc(2);
-              this.downKey = true;
-              if (this.upKey) {
-                this.upKey = false;
-              }
-              break;
-          }
-        });
-        document.addEventListener('keyup', event => {
-          switch (event.key) {
-            case KEYS.playerTwoUp:
-              this.upKey = false;
-              break;
-            case KEYS.playerTwoDown:
-              this.downKey = false;
-              break;
-          }
-        });
+        this.upInstruc = new Message(3 * boardWidth / 4, SCORE_SIZE / 2, SCORE_SIZE / 2, `UP: ${KEYS.playerTwoUp}`, '');
+        this.downInstruc = new Message(3 * boardWidth / 4, SCORE_SIZE, SCORE_SIZE / 2, `DOWN: ${KEYS.playerTwoDown}`, '');
+        this.scoreBoard = new ScoreBoard(boardWidth / 2, SCORE_SIZE, SCORE_SIZE);
+        this.x = boardWidth - BOARD_GAP - PADDLE_WIDTH;
+        this.addKeyListeners( KEYS.playerTwoUp, KEYS.playerTwoDown );
         break;
     }
   }
@@ -100,7 +46,7 @@ export default class Paddle {
     let rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttributeNS(null, 'width', this.width);
     rect.setAttributeNS(null, 'height', this.height);
-    rect.setAttributeNS(null, 'fill', `${paddleColor}`);
+    rect.setAttributeNS(null, 'fill', `${PADDLE_COLOR}`);
     rect.setAttributeNS(null, 'x', this.x);
     if (!this.isPaused) {
       if (this.upKey) {
@@ -148,4 +94,35 @@ export default class Paddle {
     }
 
   }
+  addKeyListeners(up, down) {
+    document.addEventListener('keydown', event => {
+      switch (event.key) {
+        case up:
+          this.eraseInstruc(1);
+          this.upKey = true;
+          if (this.downKey) {
+            this.downKey = false;
+          }
+          break;
+        case down:
+          this.eraseInstruc(2);
+          this.downKey = true;
+          if (this.upKey) {
+            this.upKey = false;
+          }
+          break;
+      }
+    });
+    document.addEventListener('keyup', event => {
+      switch (event.key) {
+        case up:
+          this.upKey = false;
+          break;
+        case down:
+          this.downKey = false;
+          break;
+      }
+    });
+  }
+  
 }
